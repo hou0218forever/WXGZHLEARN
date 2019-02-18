@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="hzb" />
+<meta name="copyright" content="hzb" />
+<title>HTML5-相册2</title>
+<style>
+*{ margin:0; padding:0; list-style:none;}
+body{ background:#000;}
+
+#div1{ width:200px; height:300px; margin:100px auto; -webkit-transform:perspective(800px) rotateY(0deg); -webkit-transform-style:preserve-3d;}
+#MrsD{ width:200px; height:300px; position:relative; -webkit-transform-style:preserve-3d; -webkit-transform:rotateX(0deg);}
+
+#MrsD li{ position:absolute; top:0; left:0; -webkit-transform:rotateY(0deg) translateZ(0px);  -webkit-transition:0.7s all ease-out;}
+#MrsD li span img{ -webkit-transform:scale(1,-1); -webkit-mask:-webkit-linear-gradient(rgba(0,0,0,0) 40%,rgba(0,0,0,1)); opacity:0.3;}
+#MrsD img{ width:200px; height:300px; box-shadow:2px 2px 5px 5px #FFF;}
+</style>
+<script>
+'use strict';
+window.onload = function ()
+{
+	var oDiv = document.getElementById('div1');
+	var oUl = document.getElementById('MrsD');
+	var aLi = oUl.getElementsByTagName('li');
+	//图片按角度排列
+	var i = aLi.length-1;
+	var timer = null;
+	timer = setInterval(function ()
+	{
+		aLi[i].style.WebkitTransform = 'rotateY('+i*(360/aLi.length)+'deg) translateZ(420px)';
+		i--;
+		if(i == -1)
+		{
+			clearInterval(timer);
+		}
+	},200);
+	//控制速度变量
+	var speedX = 0;
+	var speedY = 0;
+	var lastX = 0;
+	var lastY = 0;
+	//拖拽
+	var x = 0;
+	var y = 0;
+	document.onmousedown = function (ev)
+	{
+		var disX = ev.clientX-x;
+		var disY = ev.clientY-y;
+		clearInterval(timer);
+		document.onmousemove = function (ev)
+		{
+			x = ev.clientX-disX;
+			y = ev.clientY-disY;
+			oDiv.style.WebkitTransform='perspective(800px) rotateX('+-y/5+'deg)';
+			oUl.style.WebkitTransform='rotateY('+x/5+'deg)';
+			speedX=x-lastX;
+			speedY=y-lastY;
+			lastX=x;
+			lastY=y;
+		};
+		document.onmouseup = function ()
+		{
+			document.onmousemove = null;
+			document.onmouseup = null;
+			clearInterval(timer);
+			timer=setInterval(function ()
+			{
+				x+=speedX;
+				y+=speedY;
+				
+				speedX*=0.95;
+				speedY*=0.95;
+				
+				oDiv.style.WebkitTransform='perspective(800px) rotateX('+-y/5+'deg)';
+				oUl.style.WebkitTransform='rotateY('+x/5+'deg)';
+			}, 30);
+		};
+		return false;
+	};
+};
+</script>
+</head>
+
+<body>
+<audio autoplay="autopaly">
+  <source src="/music/1.mp3" type="audio/mp3" />
+</audio>
+<div id="div1">
+    <ul id="MrsD">
+        <li><img src="image2/0.jpg"><span><img src="image2/0.jpg"></span></li>
+        <li><img src="image2/1.jpg"><span><img src="image2/1.jpg"></span></li>
+        <li><img src="image2/2.jpg"><span><img src="image2/2.jpg"></span></li>
+        <li><img src="image2/3.jpg"><span><img src="image2/3.jpg"></span></li>
+        <li><img src="image2/4.jpg"><span><img src="image2/4.jpg"></span></li>
+        <li><img src="image2/5.jpg"><span><img src="image2/5.jpg"></span></li>
+        <li><img src="image2/6.jpg"><span><img src="image2/6.jpg"></span></li>
+        <li><img src="image2/7.jpg"><span><img src="image2/7.jpg"></span></li>
+        <li><img src="image2/8.jpg"><span><img src="image2/8.jpg"></span></li>
+        <li><img src="image2/9.jpg"><span><img src="image2/9.jpg"></span></li>
+        <li><img src="image2/10.jpg"><span><img src="image2/10.jpg"></span></li>
+        <li><img src="image2/11.jpg"><span><img src="image2/11.jpg"></span></li>
+    </ul>
+</div>     
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

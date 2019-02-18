@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HTML5-相册1</title>
+<style>
+*{ margin:0; padding:0; list-style:none;}
+body{ background:#000;}
+.box{ width:133px; height:200px; position:absolute; left:50%; top:50%; margin-left:-67px; margin-top:-100px; transform:perspective(800px) rotateX(0deg); transform-style:preserve-3d;}
+
+.box span{ position:absolute; left:0; top:0; width:100%; height:100%; background:url(image1/1.jpg) no-repeat; border-radius:8px; box-shadow:0 0 5px 2px #fff; -webkit-box-reflect:below 10px -webkit-linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,0.5));}
+
+/*body:active .box span{ transform:rotateY(90deg) translateZ(200px);}
+*/</style>
+<script>
+window.onload=function(){
+	var oBox=document.querySelector('.box');	
+	
+	var N=11;
+	var y=0;
+	var x=0;
+	
+	var lastY=0;
+	var iSpeedY=0;
+	var timer=null;
+	
+	for(var i=0; i<N; i++){
+		var oSpan=document.createElement('span');
+		oSpan.style.backgroundImage='url(image1/'+(i+1)+'.jpg)';
+		oBox.appendChild(oSpan);
+		
+		(function(oSpan,i){
+			setTimeout(function(){
+				oSpan.style.transition='1s all ease '+300*(N-i)+'ms';
+				oSpan.style.transform='rotateY('+360/N*i+'deg) translateZ(380px)';	
+			},0);
+		})(oSpan,i);	
+	}
+	var aSpan=oBox.children;
+	//完毕
+	aSpan[0].addEventListener('transitionend',function(){
+		setRotate(y);
+		keyControl();
+		mouseControl();
+	},false);
+	
+	//干掉transition
+	function clear(){
+		for(var i=0; i<aSpan.length; i++){
+			aSpan[i].style.transition='none';
+		}	
+	}
+	//加上transition
+	function open(){
+		for(var i=0; i<aSpan.length; i++){
+			aSpan[i].style.transition='1s all ease';
+		}
+	}
+	
+	//拖拽
+	function mouseControl(){
+		document.onmousedown=function(ev){
+			var disX=ev.clientX-y;	
+			
+			clear();
+			clearInterval(timer);
+			
+			document.onmousemove=function(ev){
+				y=ev.clientX-disX;
+				document.title=y;
+				setRotate(y/10);
+				
+				iSpeedY=y-lastY;
+				lastY=y;
+			};
+			
+			document.onmouseup=function(){
+				document.onmousemove=null;
+				document.onmouseup=null;
+				
+				timer=setInterval(function(){
+					iSpeedY*=0.8;
+					y+=iSpeedY;
+					setRotate(y);
+				},30);
+			};
+			return false;
+		};	
+	}
+	
+	
+	//键盘事件
+	function keyControl(){
+		open();
+		document.onkeydown=function(ev){
+			switch(ev.keyCode){
+				case 37:
+					y-=360/N;
+					setRotate(y);
+					break;
+				case 39:
+					y+=360/N;
+					setRotate(y);
+					break;
+				case 38:
+					x+=10;
+					oBox.style.transform='perspective(800px) rotateX('+x+'deg)';
+					break;
+				case 40:
+					x-=10;
+					oBox.style.transform='perspective(800px) rotateX('+x+'deg)';
+					break;
+			}
+		};	
+	}
+	
+	function setRotate(y){
+		for(var i=0; i<aSpan.length; i++){
+			aSpan[i].style.transform='rotateY('+(360/N*i+y)+'deg) translateZ(380px)';
+			
+			var s=Math.max(Math.abs(Math.abs((360/N*i+y)%360)-180)/180,0.2);
+
+			
+			aSpan[i].style.opacity=s;
+		}	
+	}
+};
+</script>
+</head>
+
+<body>
+<audio autoplay="autopaly">
+  <source src="/music/1.mp3" type="audio/mp3" />
+</audio>
+<div class="box">
+</div>
+</body>
+</html>

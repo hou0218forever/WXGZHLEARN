@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://res2.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+	function init(){ 
+	    var thisPageUrl = location.href.split('#')[0];
+		var json = {
+			url : thisPageUrl
+		};
+		$.ajax({
+	      type:"POST",
+	      url:json.url,
+	      dataType:"json",
+	      success:function(data){
+	    	  configWeiXin(data.appId,data.timestamp,data.nonceStr,data.signature);
+	      },
+	      error:function(data){
+	      	console.log("Error: "+data.status);
+	      }
+	  }); 
+	} 
+	function configWeiXin(appId, timestamp, nonceStr, signature) {
+		  wx.config({
+		      debug: true,
+		      appId: appId,
+		      timestamp: timestamp,
+		      nonceStr: nonceStr,
+		      signature: signature, 
+		      jsApiList: [
+		        'checkJsApi',
+		        'onMenuShareTimeline',
+		        'onMenuShareAppMessage',
+		        'onMenuShareQQ',
+		        'onMenuShareWeibo',
+		        'onMenuShareQZone',
+		        'hideMenuItems',
+		        'showMenuItems',
+		        'hideAllNonBaseMenuItem',
+		        'showAllNonBaseMenuItem',
+		        'translateVoice',
+		        'startRecord',
+		        'stopRecord',
+		        'onVoiceRecordEnd',
+		        'playVoice',
+		        'onVoicePlayEnd',
+		        'pauseVoice',
+		        'stopVoice',
+		        'uploadVoice',
+		        'downloadVoice',
+		        'chooseImage',
+		        'previewImage',
+		        'uploadImage',
+		        'downloadImage',
+		        'getNetworkType',
+		        'openLocation',
+		        'getLocation',
+		        'hideOptionMenu',
+		        'showOptionMenu',
+		        'closeWindow',
+		        'scanQRCode',
+		        'chooseWXPay',
+		        'openProductSpecificView',
+		        'addCard',
+		        'chooseCard',
+		        'openCard'
+		      ]
+		  });
+		}
+</script>
+<script src="js/zepto.min.js"></script>
+<script src="js/demo.js"> </script>
+
+</head>
+<body ontouchstart="">
+<button onclick="init()">click</button>
+<h3 id="menu-location">地理位置接口</h3>
+      <span class="desc">使用微信内置地图查看位置接口</span>
+      <button class="btn btn_primary" id="openLocation">openLocation</button>
+      <span class="desc">获取地理位置接口</span>
+      <button class="btn btn_primary" id="getLocation">getLocation</button>
+
+</body>
+</html>
