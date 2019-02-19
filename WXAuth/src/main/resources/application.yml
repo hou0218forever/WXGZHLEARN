@@ -1,0 +1,10 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/static/
+    
+#  mvc:
+#    static-path-pattern: /image/**
+#  resources:
+#    static-locations: file:/D:/OTA/
+    
+  
