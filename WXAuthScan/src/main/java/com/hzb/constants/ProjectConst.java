@@ -27,8 +27,11 @@ public class ProjectConst {
 	/**
 	 * 获取access_token的URL
 	 */
-	private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+	public static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 	public static final String PROJECT_APPID = "wxe7c0538d78f13ed9";
 	public static final String PROJECT_APPSECRET = "fff547bfbb9b4f1362ea1325729a4929";
+	//边卓科技网 AppID: wx90dcf00c1aae2b78 AppSecret: bfb2b96475ef0e96e7438aa1500f24b2
+	public static final String QRCONNECT_APPID = "wx90dcf00c1aae2b78";
+	public static final String QRCONNECT_APPSECRET = "bfb2b96475ef0e96e7438aa1500f24b2";
 
 }
